@@ -40,52 +40,53 @@
 			</div>
 
 			<div id="use-case">
-				<ul>
-					<li>
-						<dl>
-							<dt>
-								<span>for <span>genin</span></span>
-								<span>aka <span>noobs</span></span>
-							</dt>
-							<dd>
-								Can't get your head around a compile error?
-								Paste your code and wait for someone to <!-- fork&amp;fix<sup>tm</sup>.-->
-								fork and fix.
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt>
-								<span>for <span>chunin</span></span>
-								<span>aka <span>mortal developers</span></span>
-							</dt>
-							<dd>
-								Paste your most interesting stuff so you 
-								don't need to search your whole codebase everytime.
-							</dd>
-						</dl>
-					</li>
-					<li>
-						<dl>
-							<dt>
-								<span>for <span>junin</span></span>
-								<span>aka <span>masters</span></span>
-							</dt>
-							<dd>
-								After years of hard training, you're able to master
-								very complex techniques. Paste smart snippets and share 
-								the knowledge.
-							</dd>
-						</dl>
-					</li>
-				</ul>
+				<div class="area">
+					<ul class="section thirds">
+						<li class="subsection complex">
+							<dl class="content">
+								<dt>
+									<span>for <span>genin</span></span>
+									<span>aka <span>noobs</span></span>
+								</dt>
+								<dd>
+									Can't get your head around a compile error?
+									Paste your code and wait for someone to <!-- fork&amp;fix<sup>tm</sup>.-->
+									fork and fix.
+								</dd>
+							</dl>
+						</li>
+						<li class="subsection complex">
+							<dl class="content">
+								<dt>
+									<span>for <span>chunin</span></span>
+									<span>aka <span>mortal developers</span></span>
+								</dt>
+								<dd>
+									Paste your most interesting stuff so you
+									don't need to search your whole codebase everytime.
+								</dd>
+							</dl>
+						</li>
+						<li class="subsection complex">
+							<dl class="content">
+								<dt>
+									<span>for <span>junin</span></span>
+									<span>aka <span>masters</span></span>
+								</dt>
+								<dd>
+									After years of hard training, you're able to master
+									very complex techniques. Paste smart snippets and share
+									the knowledge.
+								</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
 			</div>
 
 			<div id="paste-now">
 				<form action="" method="post">				
 					<p>
-						And now some pasting!
 						<input type="submit" name="action[new-snippet]" value="Create" />
 						a new snippet.
 					</p>

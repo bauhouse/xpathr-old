@@ -7,83 +7,92 @@
 <xsl:template match="data" mode="header">
 
 	<xsl:param name="show-logo" select="true()" />
-	
+
 	<div id="header">
-		<form action="" method="post">
+		<div class="area">
+			<div class="section">
 
-			<xsl:if test="$show-logo = true()">
-				<h1>
-					<a href="{$root}/">
-						Xpath <span>of the</span> Ninja
-					</a>
-				</h1>
-				<p class="tagline">
-					paste service for 
-					<acronym title="eXtensible Stylesheet Language Transformations">XSLT</acronym> 
-					code
-				</p>
-			</xsl:if>
+				<xsl:if test="$show-logo = true()">
+					<h1>
+						<a href="{$root}/">
+							Xpath <span>of the</span> Ninja
+						</a>
+					</h1>
+					<p class="tagline">
+						paste service for
+						<acronym title="eXtensible Stylesheet Language Transformations">XSLT</acronym>
+						code
+					</p>
+				</xsl:if>
 
-			<ul id="nav">
-				<li>
-					<a href="{$root}/">Home</a>
-				</li>
-				<li>
-					<a href="{$root}/my-snippets/"><span>my</span> Snippets</a>
-				</li>
-				<li>
-					<a href="{$root}/snippets/">Snippets</a>
-				</li>
-				<!-- <li>
-					<a href="users">Users</a>
-				</li> -->
-				<li class="help">
-					<a href="{$root}/help/">Help</a>
-				</li>
-			</ul>
+				<div class="navigation">
+					<form action="" method="post" class="create">
+						<input type="submit" name="action[new-snippet]" value="Create new" />
+					</form>
+					<ul id="nav">
+						<li>
+							<a href="{$root}/">Home</a>
+						</li>
+						<li>
+							<a href="{$root}/my-snippets/"><span>my</span> Snippets</a>
+						</li>
+						<li>
+							<a href="{$root}/snippets/">Snippets</a>
+						</li>
+						<!-- <li>
+							<a href="users">Users</a>
+						</li> -->
+						<li class="help">
+							<a href="{$root}/help/">Help</a>
+						</li>
+					</ul>
+				</div>
 
-			<p class="create">
-				<input type="submit" name="action[new-snippet]" value="Create new" />
-			</p>
-			
-		</form>
+			</div>
+		</div>
 	</div>
 </xsl:template>
 
 <xsl:template match="data" mode="footer">
 	<div id="footer">
-		<ul>
-			<li class="snippets">
-				<h5><a href="{$root}/snippets/">Snippets</a></h5>
-				<ul>
-					<xsl:apply-templates select="footer-snippet-list/entry" />
-				</ul>
-			</li>
-			<li class="twitter">
-				<h5><a href="http://twitter.com/search?q=%23spongebob">Twitter</a></h5>
-				<ul>
-					<xsl:apply-templates select="footer-twitter//atom:entry[position() &lt; 4]" />
-				</ul>
-			</li>
-			<li class="help">
-				<h5><a href="{$root}/help/">Help</a></h5>
-				<ul>
-					<xsl:apply-templates select="footer-help-notes/entry">
-						<xsl:sort select="order"/>
-					</xsl:apply-templates>
-				</ul>
-			</li>
-			<li>
-				<h5>About</h5>
-				<p>
-					A project by <a href="http://github.com/alpacaaa/">Marco Sampellegrini</a>.<br />
-					Built in <a href="http://symphony-cms.com/">Symphony CMS</a>.
-				</p>
-			</li>
-		</ul>
+		<div class="area">
+			<ul class="section thirds">
+				<li class="subsection complex">
+					<div class="content snippets">
+						<h5><a href="{$root}/snippets/">Snippets</a></h5>
+						<ul>
+							<xsl:apply-templates select="footer-snippet-list/entry" />
+						</ul>
+					</div>
+				</li>
+				<li class="subsection complex">
+					<div class="content twitter">
+						<h5><a href="http://twitter.com/search?q=%23spongebob">Twitter</a></h5>
+						<ul>
+							<xsl:apply-templates select="footer-twitter//atom:entry[position() &lt; 4]" />
+						</ul>
+					</div>
+				</li>
+				<li class="help subsection complex">
+					<div class="content help">
+						<h5><a href="{$root}/help/">Help</a></h5>
+						<ul>
+							<xsl:apply-templates select="footer-help-notes/entry">
+								<xsl:sort select="order"/>
+							</xsl:apply-templates>
+						</ul>
+					</div>
+					<div class="content about">
+						<h5>About</h5>
+						<p>
+							A project by <a href="http://github.com/alpacaaa/">Marco Sampellegrini</a>.<br />
+							Built in <a href="http://symphony-cms.com/">Symphony CMS</a>.
+						</p>
+					</div>
+				</li>
+			</ul>
+		</div>
 	</div>
-
-
 </xsl:template>
 
 

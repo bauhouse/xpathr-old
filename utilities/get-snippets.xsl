@@ -14,40 +14,38 @@
 	<xsl:param name="pagination-url" />
 
 	<div id="content">
-		<xsl:call-template name="title" mode="content" />
-
-		<xsl:choose>
-			<xsl:when test="error">
-				<div class="message">No snippet found.</div>
-			</xsl:when>
-			<xsl:otherwise>
-				<table>
-
-					<thead>
-						<tr>
-							<th>Title</th>
-							<th>Description</th>
-							<xsl:if test="$show-fork-column">
-								<th>Forked from</th>
-							</xsl:if>
-							<th>Last Update</th>
-						</tr>
-					</thead>
-					<tbody>
-						<xsl:for-each select="entry">
-							<xsl:call-template name="snippet-row" />
-						</xsl:for-each>
-					</tbody>
-				</table>
-
-				<xsl:call-template name="pagination">
-					<xsl:with-param name="pagination" select="pagination" />
-					<xsl:with-param name="pagination-url"
-						select="$pagination-url" />
-				</xsl:call-template>
-			
-			</xsl:otherwise>
-		</xsl:choose>
+		<div class="content">
+			<xsl:call-template name="title" mode="content" />
+			<xsl:choose>
+				<xsl:when test="error">
+					<div class="message">No snippet found.</div>
+				</xsl:when>
+				<xsl:otherwise>
+					<table>
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Description</th>
+								<xsl:if test="$show-fork-column">
+									<th>Forked from</th>
+								</xsl:if>
+								<th>Last Update</th>
+							</tr>
+						</thead>
+						<tbody>
+							<xsl:for-each select="entry">
+								<xsl:call-template name="snippet-row" />
+							</xsl:for-each>
+						</tbody>
+					</table>
+					<xsl:call-template name="pagination">
+						<xsl:with-param name="pagination" select="pagination" />
+						<xsl:with-param name="pagination-url"
+							select="$pagination-url" />
+					</xsl:call-template>
+				</xsl:otherwise>
+			</xsl:choose>
+		</div>
 	</div>
 </xsl:template>
 
