@@ -576,22 +576,22 @@ fieldset a {
 	line-height: 1.714em;
 }
 
-body > form {
-	*zoom: 1;
-	margin-left: auto;
-	margin-right: auto;
-	width: 61em;
-	max-width: 100%;
-	margin-top: 1.5em;
+#main-resources {
+	margin: 1.5em auto 0;
+	width: 1000px;
 }
 
-body > form:after {
-	content: "\0020";
-	display: block;
-	height: 0;
-	clear: both;
+@media screen and (max-width: 1000px) {
+
+	#main-resources {
+		width: auto;
+	}
+
+}
+
+#main-resources form {
 	overflow: hidden;
-	visibility: hidden;
+	margin: 0 40px;
 }
 
 input {
@@ -778,9 +778,7 @@ Snippet Info
 #snip-info {
 	display: inline;
 	float: left;
-	width: 39.344%;
-	margin-right: 1.639%;
-	margin-left: 1.639%;
+	width: 40%;
 }
 
 #snip-info h2 {
@@ -789,7 +787,6 @@ Snippet Info
 	display: inline;
 	float: left;
 	width: 79.167%;
-	margin-right: 4.167%;
 	margin: 0;
 }
 
@@ -839,13 +836,9 @@ Resource
 #resource {
 	display: inline;
 	float: left;
-	width: 47.541%;
-	margin-right: 1.639%;
-	padding-left: 8.197%;
+	width: 50%;
 	display: inline;
 	float: right;
-	margin-right: 1.639%;
-	margin-left: -1em;
 }
 
 #resource p {
@@ -914,6 +907,17 @@ Resource
 #resource fieldset > ul li:last-child {
 	padding-right: 4px;
 	float: left;
+}
+
+@media screen and (max-width: 600px) {
+
+	#snip-info,
+	#resource {
+		display: block;
+		float: none;
+		width: auto;
+	}
+
 }
 
 
@@ -989,14 +993,8 @@ Main
 }
 
 #main {
-	display: inline;
-	float: left;
-	width: 96.721%;
-	margin-right: 1.639%;
 	clear: both;
-	margin-right: 1.639%;
-	margin-left: 1.639%;
-	margin-top: 1.5em;
+	margin: 1.5em 0 40px;
 }
 
 #main label {

@@ -39,22 +39,23 @@
 
 
 <xsl:template match="data">
-	<form action="" method="post">
-		<div id="snip-info">
-			<xsl:apply-templates select="snippet-information/entry" />
-		</div>
+	<div class="area" id="main-resources">
+		<form action="" method="post">
+			<div id="snip-info">
+				<xsl:apply-templates select="snippet-information/entry" />
+			</div>
+			<div id="resource">
+				<xsl:call-template name="current-resource" />
+				<xsl:apply-templates select="resources-list" />
+			</div>
 
-		<div id="resource">
-			<xsl:call-template name="current-resource" />
-			<xsl:apply-templates select="resources-list" />
-		</div>
+			<xsl:apply-templates select="events/*/message | user-flash/message" />
 
-		<xsl:apply-templates select="events/*/message | user-flash/message" />
-
-		<div id="main">
-			<xsl:call-template name="main" />
-		</div>
-	</form>
+			<div id="main">
+				<xsl:call-template name="main" />
+			</div>
+		</form>
+	</div>
 </xsl:template>
 
 
