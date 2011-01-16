@@ -20,7 +20,7 @@
 	<html>
 
 		<head>
-			<link rel="stylesheet" href="{$workspace}/assets/stylesheets/screen.css" type="text/css" />
+			<link rel="stylesheet" href="{$workspace}/assets/css/xpathr.screen.css" type="text/css" />
 			<link href="http://fonts.googleapis.com/css?family=Lobster:regular|Droid+Sans&amp;subset=latin" rel="stylesheet" type="text/css" />
 			<title>Home – XPath of the Ninja</title>
 		</head>
