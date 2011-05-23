@@ -81,6 +81,8 @@ CREATE TABLE `tbl_fields_select` (
   `allow_multiple_selection` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `static_options` text COLLATE utf8_unicode_ci,
   `dynamic_options` int(11) unsigned DEFAULT NULL,
+  `show_association` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `sort_options` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -95,12 +97,13 @@ CREATE TABLE `tbl_fields_selectbox_link` (
   `allow_multiple_selection` enum('yes','no') NOT NULL DEFAULT 'no',
   `related_field_id` varchar(255) NOT NULL,
   `limit` int(4) unsigned NOT NULL DEFAULT '20',
+  `show_association` enum('yes','no') NOT NULL DEFAULT 'yes',
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- *** DATA: `tbl_fields_selectbox_link` ***
-INSERT INTO `tbl_fields_selectbox_link` (`id`, `field_id`, `allow_multiple_selection`, `related_field_id`, `limit`) VALUES (5, 8, 'no', 6, 20);
+INSERT INTO `tbl_fields_selectbox_link` (`id`, `field_id`, `allow_multiple_selection`, `related_field_id`, `limit`, `show_association`) VALUES (5, 8, 'no', 6, 20, 'yes');
 
 -- *** STRUCTURE: `tbl_fields_taglist` ***
 DROP TABLE IF EXISTS `tbl_fields_taglist`;
@@ -152,12 +155,13 @@ CREATE TABLE `tbl_entries_data_1` (
   `handle` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- *** DATA: `tbl_entries_data_1` ***
+INSERT INTO `tbl_entries_data_1` (`id`, `entry_id`, `handle`, `value`) VALUES (11, 12, '445e5dc410', '445e5dc410');
 
 -- *** STRUCTURE: `tbl_entries_data_10` ***
 DROP TABLE IF EXISTS `tbl_entries_data_10`;
@@ -167,7 +171,7 @@ CREATE TABLE `tbl_entries_data_10` (
   `handle` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
@@ -192,7 +196,7 @@ CREATE TABLE `tbl_entries_data_11` (
   `value` text,
   `value_formatted` text,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   FULLTEXT KEY `value` (`value`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
@@ -239,7 +243,7 @@ CREATE TABLE `tbl_entries_data_13` (
   `handle` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -254,12 +258,13 @@ CREATE TABLE `tbl_entries_data_2` (
   `handle` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- *** DATA: `tbl_entries_data_2` ***
+INSERT INTO `tbl_entries_data_2` (`id`, `entry_id`, `handle`, `value`) VALUES (11, 12, 'slickmap-css-markup', 'Slickmap CSS Markup');
 
 -- *** STRUCTURE: `tbl_entries_data_3` ***
 DROP TABLE IF EXISTS `tbl_entries_data_3`;
@@ -269,11 +274,12 @@ CREATE TABLE `tbl_entries_data_3` (
   `value` text,
   `value_formatted` text,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   FULLTEXT KEY `value` (`value`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- *** DATA: `tbl_entries_data_3` ***
+INSERT INTO `tbl_entries_data_3` (`id`, `entry_id`, `value`, `value_formatted`) VALUES (11, 12, 'A way to transform Markdown formatted nested unordered lists into markup for a simplified Slickmap CSS site map.', NULL);
 
 -- *** STRUCTURE: `tbl_entries_data_4` ***
 DROP TABLE IF EXISTS `tbl_entries_data_4`;
@@ -283,12 +289,13 @@ CREATE TABLE `tbl_entries_data_4` (
   `handle` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- *** DATA: `tbl_entries_data_4` ***
+INSERT INTO `tbl_entries_data_4` (`id`, `entry_id`, `handle`, `value`) VALUES (11, 12, 'sourcexml', 'source.xml');
 
 -- *** STRUCTURE: `tbl_entries_data_5` ***
 DROP TABLE IF EXISTS `tbl_entries_data_5`;
@@ -298,12 +305,13 @@ CREATE TABLE `tbl_entries_data_5` (
   `handle` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- *** DATA: `tbl_entries_data_5` ***
+INSERT INTO `tbl_entries_data_5` (`id`, `entry_id`, `handle`, `value`) VALUES (11, 12, 'masterxsl', 'master.xsl');
 
 -- *** STRUCTURE: `tbl_entries_data_6` ***
 DROP TABLE IF EXISTS `tbl_entries_data_6`;
@@ -313,7 +321,7 @@ CREATE TABLE `tbl_entries_data_6` (
   `handle` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -329,7 +337,7 @@ CREATE TABLE `tbl_entries_data_7` (
   `handle` varchar(255) DEFAULT NULL,
   `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   KEY `handle` (`handle`),
   KEY `value` (`value`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -346,9 +354,10 @@ CREATE TABLE `tbl_entries_data_8` (
   PRIMARY KEY (`id`),
   KEY `entry_id` (`entry_id`),
   KEY `relation_id` (`relation_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- *** DATA: `tbl_entries_data_8` ***
+INSERT INTO `tbl_entries_data_8` (`id`, `entry_id`, `relation_id`) VALUES (11, 12, 1);
 
 -- *** STRUCTURE: `tbl_entries_data_9` ***
 DROP TABLE IF EXISTS `tbl_entries_data_9`;
@@ -359,11 +368,12 @@ CREATE TABLE `tbl_entries_data_9` (
   `local` int(11) DEFAULT NULL,
   `gmt` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `entry_id` (`entry_id`),
+  UNIQUE KEY `entry_id` (`entry_id`),
   KEY `value` (`value`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- *** DATA: `tbl_entries_data_9` ***
+INSERT INTO `tbl_entries_data_9` (`id`, `entry_id`, `value`, `local`, `gmt`) VALUES (11, 12, '2011-05-23T08:23:00-07:00', 1306164180, 1306164180);
 
 -- *** DATA: `tbl_entries` ***
 INSERT INTO `tbl_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`) VALUES (1, 2, 1, '2011-01-15 09:14:11', '2011-01-15 17:14:11');
@@ -377,34 +387,50 @@ INSERT INTO `tbl_entries` (`id`, `section_id`, `author_id`, `creation_date`, `cr
 INSERT INTO `tbl_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`) VALUES (9, 3, 1, '2011-01-15 09:25:31', '2011-01-15 17:25:31');
 INSERT INTO `tbl_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`) VALUES (10, 3, 1, '2011-01-15 09:28:37', '2011-01-15 17:28:37');
 INSERT INTO `tbl_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`) VALUES (11, 3, 1, '2011-01-15 09:29:29', '2011-01-15 17:29:29');
+INSERT INTO `tbl_entries` (`id`, `section_id`, `author_id`, `creation_date`, `creation_date_gmt`) VALUES (12, 1, 1, '2011-05-23 07:45:00', '2011-05-23 14:45:00');
 
 -- *** DATA: `tbl_extensions` ***
-INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (2, 'debugdevkit', 'enabled', '1.0.8');
+INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (2, 'debugdevkit', 'enabled', 1.1);
 INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (4, 'symquery', 'enabled', '0.1.0');
 INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (5, 'profiledevkit', 'enabled', '1.0.4');
 INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (28, 'ninja', 'enabled', 1.0);
 INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (31, 'openid_auth', 'disabled', 0.1);
-INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (12, 'selectbox_link_field', 'enabled', 1.18);
+INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (12, 'selectbox_link_field', 'enabled', 1.19);
 INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (14, 'order_entries', 'enabled', 1.8);
-INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (15, 'export_ensemble', 'enabled', 1.11);
-INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (22, 'router', 'enabled', 0.3);
-INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (29, 'cachelite', 'disabled', '1.0.10');
+INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (15, 'export_ensemble', 'enabled', 1.15);
+INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (22, 'router', 'enabled', 0.5);
+INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (29, 'cachelite', 'enabled', '1.1.2');
 INSERT INTO `tbl_extensions` (`id`, `name`, `status`, `version`) VALUES (30, 'cacheabledatasource', 'enabled', 0.2);
 
 -- *** DATA: `tbl_extensions_delegates` ***
-INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (1, 2, '/frontend/', 'FrontendDevKitResolve', 'frontendDevKitResolve');
-INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (2, 2, '/frontend/', 'ManipulateDevKitNavigation', 'manipulateDevKitNavigation');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (79, 2, '/frontend/', 'ManipulateDevKitNavigation', 'manipulateDevKitNavigation');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (78, 2, '/frontend/', 'FrontendDevKitResolve', 'frontendDevKitResolve');
 INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (3, 5, '/frontend/', 'FrontendDevKitResolve', 'frontendDevKitResolve');
 INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (4, 5, '/frontend/', 'ManipulateDevKitNavigation', 'manipulateDevKitNavigation');
 INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (5, 5, '/frontend/', 'FrontendOutputPostGenerate', 'FrontendOutputPostGenerate');
 INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (12, 14, '/backend/', 'InitaliseAdminPageHead', 'appendScriptToHead');
 INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (13, 14, '/backend/', 'AppendElementBelowView', 'appendOrderFieldId');
-INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (14, 15, '/system/preferences/', 'AddCustomPreferenceFieldsets', 'appendPreferences');
-INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (25, 22, '/system/preferences/', 'AddCustomPreferenceFieldsets', 'addCustomPreferenceFieldsets');
-INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (26, 22, '/system/preferences/', 'Save', 'save');
-INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (24, 22, '/frontend/', 'FrontendPrePageResolve', 'frontendPrePageResolve');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (84, 15, '/system/preferences/', 'AddCustomPreferenceFieldsets', 'appendPreferences');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (81, 22, '/system/preferences/', 'AddCustomPreferenceFieldsets', 'addCustomPreferenceFieldsets');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (80, 22, '/frontend/', 'FrontendPrePageResolve', 'frontendPrePageResolve');
 INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (63, 28, '/frontend/', 'cacheLitePreExecute', 'cacheLitePreExecute');
 INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (62, 28, '/frontend/', 'FrontendParamsResolve', 'FrontendParamsResolve');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (64, 29, '/frontend/', 'FrontendPageResolved', 'intercept_page');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (65, 29, '/frontend/', 'FrontendOutputPreGenerate', 'parse_page_data');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (66, 29, '/frontend/', 'FrontendOutputPostGenerate', 'write_page_cache');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (67, 29, '/system/preferences/', 'AddCustomPreferenceFieldsets', 'append_preferences');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (68, 29, '/system/preferences/', 'Save', 'save_preferences');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (69, 29, '/publish/new/', 'EntryPostCreate', 'entry_create');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (70, 29, '/publish/edit/', 'EntryPreEdit', 'entry_edit');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (71, 29, '/publish/', 'Delete', 'entry_delete');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (72, 29, '/blueprints/events/new/', 'AppendEventFilter', 'addFilterToEventEditor');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (73, 29, '/blueprints/events/edit/', 'AppendEventFilter', 'addFilterToEventEditor');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (74, 29, '/blueprints/events/new/', 'AppendEventFilterDocumentation', 'add_filter_documentation_to_event');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (75, 29, '/blueprints/events/edit/', 'AppendEventFilterDocumentation', 'add_filter_documentation_to_event');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (76, 29, '/frontend/', 'EventPreSaveFilter', 'processEventData');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (77, 29, '/frontend/', 'EventPostSaveFilter', 'processPostSaveData');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (82, 22, '/system/preferences/', 'Save', 'save');
+INSERT INTO `tbl_extensions_delegates` (`id`, `extension_id`, `page`, `delegate`, `callback`) VALUES (83, 22, '/backend/', 'InitaliseAdminPageHead', 'addRouterJS');
 
 -- *** DATA: `tbl_fields` ***
 INSERT INTO `tbl_fields` (`id`, `label`, `element_name`, `type`, `parent_section`, `required`, `sortorder`, `location`, `show_column`) VALUES (1, 'uniq-id', 'uniq-id', 'input', 1, 'yes', 0, 'main', 'yes');
@@ -436,16 +462,16 @@ INSERT INTO `tbl_pages` (`id`, `parent`, `title`, `handle`, `path`, `params`, `d
 INSERT INTO `tbl_pages_types` (`id`, `page_id`, `type`) VALUES (13, 1, 'index');
 INSERT INTO `tbl_pages_types` (`id`, `page_id`, `type`) VALUES (14, 18, 404);
 
+-- *** DATA: `tbl_router` ***
+INSERT INTO `tbl_router` (`id`, `from`, `to`) VALUES (77, '/\\/snippets\\/([^\\/]+)\\/([^\\/]+)\\/process/i', '/snippet/process/$1/$2');
+INSERT INTO `tbl_router` (`id`, `from`, `to`) VALUES (78, '/\\/snippets\\/([^\\/]+)\\/([^\\/]+)\\/add-resource/i', '/snippet/add-resource/$1/$2');
+INSERT INTO `tbl_router` (`id`, `from`, `to`) VALUES (79, '/\\/snippets\\/([^\\/]+)\\/([^\\/]+)\\/([^\\/]+)/i', '/snippet/resource/$1/$2/$3');
+INSERT INTO `tbl_router` (`id`, `from`, `to`) VALUES (80, '/\\/snippets\\/([^\\/]+)\\/([^\\/]+)/i', '/snippet/$1/$2');
+
 -- *** DATA: `tbl_sections` ***
 INSERT INTO `tbl_sections` (`id`, `name`, `handle`, `sortorder`, `entry_order`, `entry_order_direction`, `hidden`, `navigation_group`) VALUES (1, 'Snippets', 'snippets', 1, NULL, 'asc', 'no', 'Content');
 INSERT INTO `tbl_sections` (`id`, `name`, `handle`, `sortorder`, `entry_order`, `entry_order_direction`, `hidden`, `navigation_group`) VALUES (2, 'Users', 'users', 2, NULL, 'asc', 'no', 'Content');
 INSERT INTO `tbl_sections` (`id`, `name`, `handle`, `sortorder`, `entry_order`, `entry_order_direction`, `hidden`, `navigation_group`) VALUES (3, 'Help', 'help', 3, 12, 'asc', 'no', 'Content');
 
 -- *** DATA: `tbl_sections_association` ***
-INSERT INTO `tbl_sections_association` (`id`, `parent_section_id`, `parent_section_field_id`, `child_section_id`, `child_section_field_id`, `cascading_deletion`) VALUES (5, 2, 6, 1, 8, 'no');
-
--- *** DATA: `tbl_router` ***
-INSERT INTO `tbl_router` (`id`, `from`, `to`) VALUES (77, '/\\/snippets\\/([^\\/]+)\\/([^\\/]+)\\/process/i', '/snippet/process/$1/$2');
-INSERT INTO `tbl_router` (`id`, `from`, `to`) VALUES (78, '/\\/snippets\\/([^\\/]+)\\/([^\\/]+)\\/add-resource/i', '/snippet/add-resource/$1/$2');
-INSERT INTO `tbl_router` (`id`, `from`, `to`) VALUES (79, '/\\/snippets\\/([^\\/]+)\\/([^\\/]+)\\/([^\\/]+)/i', '/snippet/resource/$1/$2/$3');
-INSERT INTO `tbl_router` (`id`, `from`, `to`) VALUES (80, '/\\/snippets\\/([^\\/]+)\\/([^\\/]+)/i', '/snippet/$1/$2');
+INSERT INTO `tbl_sections_association` (`id`, `parent_section_id`, `parent_section_field_id`, `child_section_id`, `child_section_field_id`, `hide_association`) VALUES (5, 2, 6, 1, 8, 'no');
