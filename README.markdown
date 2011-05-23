@@ -1,3 +1,24 @@
+# XPath of the Ninja Ensemble #
+
+- Branch: update-symphony
+- Date: 23rd May 2011
+- Github Repository: <http://github.com/bauhouse/xpathr/>
+
+## Ensemble Installation
+
+The ensemble has been created with the Export Ensemble extension (version 1.15).
+To install this ensemble with Git, clone the `ninja-ensemble` branch of the
+repository using a command to recursively initialize and update submodules:
+
+    git clone --branch ninja-ensemble --recursive git://github.com/bauhouse/xpathr.git ninja
+
+### Known Issues
+
+This ensemble is a stable, working proof of concept for the XPath of the Ninja application.
+However, it is still using an older version of Symphony for compatibility with the older
+versions of the CacheLite and SymQuery extensions.
+
+
 # Symphony 2 #
 
 - Version: 2.1.2
