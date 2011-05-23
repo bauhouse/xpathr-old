@@ -18,16 +18,6 @@ CREATE TABLE `tbl_authors` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- *** STRUCTURE: `tbl_sessions` ***
-DROP TABLE IF EXISTS `tbl_sessions`;
-CREATE TABLE IF NOT EXISTS `tbl_sessions` (
-  `session` varchar(100) NOT NULL,
-  `session_expires` int(10) unsigned NOT NULL default '0',
-  `session_data` text default null,
-  PRIMARY KEY  (`session`),
-  KEY `session_expires` (`session_expires`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 -- *** STRUCTURE: `tbl_cache` ***
 DROP TABLE IF EXISTS `tbl_cache`;
 CREATE TABLE `tbl_cache` (
@@ -37,8 +27,8 @@ CREATE TABLE `tbl_cache` (
   `expiry` int(14) unsigned DEFAULT NULL,
   `data` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `expiry` (`expiry`),
-  KEY `hash` (`hash`)
+  KEY `hash` (`hash`),
+  KEY `expiry` (`expiry`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** STRUCTURE: `tbl_entries` ***
@@ -118,7 +108,7 @@ CREATE TABLE `tbl_fields_checkbox` (
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** STRUCTURE: `tbl_fields_date` ***
 DROP TABLE IF EXISTS `tbl_fields_date`;
@@ -140,19 +130,43 @@ CREATE TABLE `tbl_fields_input` (
   KEY `field_id` (`field_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- *** STRUCTURE: `tbl_fields_order_entries` ***
+DROP TABLE IF EXISTS `tbl_fields_order_entries`;
+CREATE TABLE `tbl_fields_order_entries` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `field_id` int(11) unsigned NOT NULL,
+  `force_sort` enum('yes','no') DEFAULT 'no',
+  `hide` enum('yes','no') DEFAULT 'no',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `field_id` (`field_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
 -- *** STRUCTURE: `tbl_fields_select` ***
 DROP TABLE IF EXISTS `tbl_fields_select`;
 CREATE TABLE `tbl_fields_select` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `field_id` int(11) unsigned NOT NULL,
   `allow_multiple_selection` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
-  `show_association` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
-  `sort_options` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   `static_options` text COLLATE utf8_unicode_ci,
   `dynamic_options` int(11) unsigned DEFAULT NULL,
+  `show_association` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'yes',
+  `sort_options` enum('yes','no') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- *** STRUCTURE: `tbl_fields_selectbox_link` ***
+DROP TABLE IF EXISTS `tbl_fields_selectbox_link`;
+CREATE TABLE `tbl_fields_selectbox_link` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `field_id` int(11) unsigned NOT NULL,
+  `allow_multiple_selection` enum('yes','no') NOT NULL DEFAULT 'no',
+  `related_field_id` varchar(255) NOT NULL,
+  `limit` int(4) unsigned NOT NULL DEFAULT '20',
+  `show_association` enum('yes','no') NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`id`),
+  KEY `field_id` (`field_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- *** STRUCTURE: `tbl_fields_taglist` ***
 DROP TABLE IF EXISTS `tbl_fields_taglist`;
@@ -186,7 +200,7 @@ CREATE TABLE `tbl_fields_upload` (
   `validator` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `field_id` (`field_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- *** STRUCTURE: `tbl_forgotpass` ***
 DROP TABLE IF EXISTS `tbl_forgotpass`;
@@ -223,6 +237,15 @@ CREATE TABLE `tbl_pages_types` (
   KEY `page_id` (`page_id`,`type`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- *** STRUCTURE: `tbl_router` ***
+DROP TABLE IF EXISTS `tbl_router`;
+CREATE TABLE `tbl_router` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `to` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 -- *** STRUCTURE: `tbl_sections` ***
 DROP TABLE IF EXISTS `tbl_sections`;
 CREATE TABLE `tbl_sections` (
@@ -251,11 +274,12 @@ CREATE TABLE `tbl_sections_association` (
   KEY `parent_section_id` (`parent_section_id`,`child_section_id`,`child_section_field_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- *** STRUCTURE: `tbl_router` ***
-DROP TABLE IF EXISTS `tbl_router`;
-CREATE TABLE IF NOT EXISTS `tbl_router` (
-    `id` int(11) NOT NULL auto_increment,
-    `from` varchar(255) NOT NULL,
-    `to` varchar(255) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+-- *** STRUCTURE: `tbl_sessions` ***
+DROP TABLE IF EXISTS `tbl_sessions`;
+CREATE TABLE `tbl_sessions` (
+  `session` varchar(255) NOT NULL,
+  `session_expires` int(10) unsigned NOT NULL DEFAULT '0',
+  `session_data` text,
+  PRIMARY KEY (`session`),
+  KEY `session_expires` (`session_expires`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

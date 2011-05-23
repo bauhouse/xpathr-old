@@ -18,7 +18,7 @@
 	url = git://github.com/symphonycms/profiledevkit.git
 [submodule "extensions/debugdevkit"]
 	path = extensions/debugdevkit
-	url = git://github.com/bauhouse/debugdevkit.git
+	url = git://github.com/symphonycms/debugdevkit.git
 [submodule "extensions/xssfilter"]
 	path = extensions/xssfilter
 	url = git://github.com/symphonycms/xssfilter.git
@@ -27,7 +27,7 @@
 	url = git://github.com/nickdunn/cacheabledatasource.git
 [submodule "extensions/cachelite"]
 	path = extensions/cachelite
-	url = git://github.com/bauhouse/cachelite.git
+	url = git://github.com/makenosound/cachelite.git
 [submodule "extensions/ninja"]
 	path = extensions/ninja
 	url = git://github.com/bauhouse/xpathr.git
