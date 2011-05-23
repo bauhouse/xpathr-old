@@ -1,0 +1,66 @@
+<data>
+<site-maps>
+<section id="7" handle="site-maps">Site Maps</section>
+<entry id="13">
+<site-map mode="formatted">
+<h3>Utility Nav</h3>
+<ul>
+<li>Register</li>
+<li>Login</li>
+<li>Site Map</li>
+</ul>
+<h3>Primary Nav</h3>
+<ul>
+<li>Home</li>
+<li>Services
+<ul>
+<li>Products</li>
+<li>Plans</li>
+<li>Customer Support</li>
+</ul>
+</li>
+<li>News
+<ul>
+<li>Releases</li>
+<li>Media Kit</li>
+<li>Subscribe
+<ul>
+<li>Twitter</li>
+<li>RSS</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Events
+<ul>
+<li>Shows</li>
+<li>Conferences</li>
+<li>Special Events</li>
+</ul>
+</li>
+<li>About
+<ul>
+<li>Company</li>
+<li>Employment</li>
+<li>Awards</li>
+</ul>
+</li>
+<li>Contact
+<ul>
+<li>Offices</li>
+<li>Feedback</li>
+<li>Requests</li>
+</ul>
+</li>
+</ul>
+<h3>Site Info</h3>
+<ul>
+<li>Copyright</li>
+<li>Terms of Use</li>
+<li>Privacy Policy</li>
+</ul>
+</site-map>
+<version handle="1">#001</version>
+</entry>
+</site-maps>
+</data>
