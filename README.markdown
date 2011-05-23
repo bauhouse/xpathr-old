@@ -7,8 +7,8 @@
 ## Ensemble Installation
 
 The ensemble has been created with the Export Ensemble extension (version 1.15).
-To install this ensemble with Git, clone the `update-symphony` repository using
-a command to recursively initialize and update submodules:
+To install this ensemble with Git, clone the `update-symphony` branch of the
+repository using a command to recursively initialize and update submodules:
 
     git clone --branch update-symphony --recursive git://github.com/bauhouse/xpathr.git xpathr
 
