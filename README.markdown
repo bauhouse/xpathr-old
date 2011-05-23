@@ -1,6 +1,6 @@
 # XPath of the Ninja Ensemble #
 
-- Branch: update-symphony
+- Branch: ninja-ensemble
 - Date: 23rd May 2011
 - Github Repository: <http://github.com/bauhouse/xpathr/>
 
