@@ -1,5 +1,13 @@
 <?php
 
+	/**
+	 * @package toolkit
+	 */
+	
+	/**
+	 * A simple Input field that essentially maps to HTML's `<input type='text'/>`.
+	 */
+
 	require_once(TOOLKIT . '/class.xsltprocess.php');
 
 	Class fieldInput extends Field {
@@ -70,12 +78,20 @@
 			$sort = 'ORDER BY ' . (in_array(strtolower($order), array('random', 'rand')) ? 'RAND()' : "`ed`.`value` $order");
 		}
 
-		public function buildDSRetrivalSQL($data, &$joins, &$where, $andOperation = false) {
+		public function buildDSRetrievalSQL($data, &$joins, &$where, $andOperation = false) {
 			$field_id = $this->get('id');
 
 			if (self::isFilterRegex($data[0])) {
 				$this->_key++;
-				$pattern = str_replace('regexp:', '', $this->cleanValue($data[0]));
+
+				if (preg_match('/^regexp:/i', $data[0])) {
+					$pattern = preg_replace('/regexp:/i', null, $this->cleanValue($data[0]));
+					$regex = 'REGEXP';
+				} else {
+					$pattern = preg_replace('/not-?regexp:/i', null, $this->cleanValue($data[0]));
+					$regex = 'NOT REGEXP';
+				}
+
 				$joins .= "
 					LEFT JOIN
 						`tbl_entries_data_{$field_id}` AS t{$field_id}_{$this->_key}
@@ -83,8 +99,8 @@
 				";
 				$where .= "
 					AND (
-						t{$field_id}_{$this->_key}.value REGEXP '{$pattern}'
-						OR t{$field_id}_{$this->_key}.handle REGEXP '{$pattern}'
+						t{$field_id}_{$this->_key}.value {$regex} '{$pattern}'
+						OR t{$field_id}_{$this->_key}.handle {$regex} '{$pattern}'
 					)
 				";
 
@@ -143,8 +159,6 @@
 
 			$message = NULL;
 
-			$handle = Lang::createHandle($data);
-
 			if($this->get('required') == 'yes' && strlen($data) == 0){
 				$message = __("'%s' is a required field.", array($this->get('label')));
 				return self::__MISSING_FIELDS__;
@@ -179,7 +193,6 @@
 		}
 
 		public function appendFormattedElement(&$wrapper, $data, $encode=false){
-
 			$value = $data['value'];
 
 			if($encode === true){
@@ -235,8 +248,10 @@
 
 			$this->buildValidationSelect($wrapper, $this->get('validator'), 'fields['.$this->get('sortorder').'][validator]');
 
-			$this->appendRequiredCheckbox($wrapper);
-			$this->appendShowColumnCheckbox($wrapper);
+			$div = new XMLElement('div', NULL, array('class' => 'compact'));
+			$this->appendRequiredCheckbox($div);
+			$this->appendShowColumnCheckbox($div);
+			$wrapper->appendChild($div);
 
 		}
 
@@ -250,7 +265,7 @@
 				  `handle` varchar(255) default NULL,
 				  `value` varchar(255) default NULL,
 				  PRIMARY KEY  (`id`),
-				  KEY `entry_id` (`entry_id`),
+				  UNIQUE KEY `entry_id` (`entry_id`),
 				  KEY `handle` (`handle`),
 				  KEY `value` (`value`)
 				) ENGINE=MyISAM;"

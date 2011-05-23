@@ -6,3 +6,5 @@
 manifest/
 *.esproj
 *~
+*.geany
+install-log.txt

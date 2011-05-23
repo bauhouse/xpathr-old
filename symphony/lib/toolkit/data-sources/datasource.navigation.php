@@ -21,22 +21,22 @@
 	}
 
 	if(!function_exists('__buildPageXML')){
-		function __buildPageXML($page, &$database){
+		function __buildPageXML($page){
 
 			$oPage = new XMLElement('page');
 			$oPage->setAttribute('handle', $page['handle']);
 			$oPage->setAttribute('id', $page['id']);
 			$oPage->appendChild(new XMLElement('name', General::sanitize($page['title'])));
 
-			$types = $database->fetchCol('type', "SELECT `type` FROM `tbl_pages_types` WHERE `page_id` = '".$page['id']."'");
+			$types = Symphony::Database()->fetchCol('type', "SELECT `type` FROM `tbl_pages_types` WHERE `page_id` = '".$page['id']."'");
 			if(is_array($types) && !empty($types)){
 				$xTypes = new XMLElement('types');
 				foreach($types as $type) $xTypes->appendChild(new XMLElement('type', $type));
 				$oPage->appendChild($xTypes);
 			}
 
-			if($children = $database->fetch("SELECT * FROM `tbl_pages` WHERE `parent` = '".$page['id']."' ORDER BY `sortorder` ASC")){
-				foreach($children as $c) $oPage->appendChild(__buildPageXML($c, $database));
+			if($children = Symphony::Database()->fetch("SELECT * FROM `tbl_pages` WHERE `parent` = '".$page['id']."' ORDER BY `sortorder` ASC")){
+				foreach($children as $c) $oPage->appendChild(__buildPageXML($c));
 			}
 
 			return $oPage;
@@ -57,11 +57,8 @@
 	}
 
 	$sql = "SELECT DISTINCT p.* FROM `tbl_pages` AS p LEFT JOIN `tbl_pages_types` AS pt ON(p.id = pt.page_id) WHERE 1 = 1";
+	$sql .= !is_null($parent_sql) ? $parent_sql : " AND p.parent IS NULL ";
 
-	if(!is_null($parent_sql)) $sql .= $parent_sql;
-	else{
-		$sql .= " AND p.parent IS NULL ";
-	}
 	if(!is_null($types)) $sql .= " AND pt.type IN ('" . implode("', '", $types) . "')";
 
 	$sql .= " ORDER BY p.`sortorder` ASC";
@@ -75,5 +72,6 @@
 		$result->appendChild($this->__noRecordsFound());
 	}
 
-	else foreach($pages as $p) $result->appendChild(__buildPageXML($p, Symphony::Database()));
-
+	else {
+		foreach($pages as $page) $result->appendChild(__buildPageXML($page));
+	}

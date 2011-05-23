@@ -13,9 +13,9 @@
 		return (is_array($results) && !empty($results));
 	}
 
-    function writeConfig($dest, $conf, $mode){
+	function writeConfig($dest, $conf, $mode){
 
-        $string  = "<?php\n";
+		$string  = "<?php\n";
 
 		$string .= "\n\t\$settings = array(";
 		foreach($conf as $group => $data){
@@ -29,9 +29,9 @@
 		}
 		$string .= "\r\n\t);\n\n";
 
-        return General::writeFile($dest . '/config.php', $string, $mode);
+		return General::writeFile($dest . '/config.php', $string, $mode);
 
-    }
+	}
 
 	function loadOldStyleConfig(){
 		$config = preg_replace(array('/^<\?php/i', '/\?>$/i', '/if\(\!defined\([^\r\n]+/i', '/require_once[^\r\n]+/i'), NULL, file_get_contents('manifest/config.php'));
@@ -62,8 +62,8 @@
 
 	set_error_handler('__errorHandler');
 
-	define('kVERSION', '2.1.2');
-	define('kCHANGELOG', 'http://symphony-cms.com/download/releases/version/'.kVERSION.'/');
+	define('kVERSION', '2.2.1');
+	define('kCHANGELOG', 'https://gist.github.com/884691');
 	define('kINSTALL_ASSET_LOCATION', './symphony/assets/installer');
 	define('kINSTALL_FILENAME', basename(__FILE__));
 
@@ -171,14 +171,20 @@
 					$rewrite_base .= '/';
 				}
 
-		        $htaccess = '
-### Symphony 2.0.x ###
+				$htaccess = '
+### Symphony 2.2.x ###
 Options +FollowSymlinks -Indexes
 
 <IfModule mod_rewrite.c>
 
 	RewriteEngine on
 	RewriteBase /'.$rewrite_base.'
+
+	### SECURITY - Protect crucial files
+	RewriteRule ^manifest/(.*)$ - [F]
+	RewriteRule ^workspace/utilities/(.*).xsl$ - [F]
+	RewriteRule ^workspace/pages/(.*).xsl$ - [F]
+	RewriteRule ^(.*).sql$ - [F]
 
 	### DO NOT APPLY RULES WHEN REQUESTING "favicon.ico"
 	RewriteCond %{REQUEST_FILENAME} favicon.ico [NC]
@@ -192,6 +198,9 @@ Options +FollowSymlinks -Indexes
 	RewriteCond %{REQUEST_URI} !/$
 	RewriteCond %{REQUEST_URI} !(.*)/$
 	RewriteRule ^(.*)$ $1/ [L,R=301]
+
+	### URL Correction
+	RewriteRule ^(symphony/)?index.php(/.*/?) $1$2 [NC]
 
 	### ADMIN REWRITE
 	RewriteRule ^symphony\/?$ index.php?mode=administration&%{QUERY_STRING} [NC,L]
@@ -261,17 +270,17 @@ Options +FollowSymlinks -Indexes
 				// Purge all sessions, forcing everyone to update their passwords
 				$frontend->Database->query( "TRUNCATE TABLE `tbl_sessions`");
 
-				## Update Upload field
+				// Update Upload field
 				$upload_entry_tables = $frontend->Database->fetchCol("field_id", "SELECT `field_id` FROM `tbl_fields_upload`");
 
 				if(is_array($upload_entry_tables) && !empty($upload_entry_tables)) foreach($upload_entry_tables as $field) {
 					$frontend->Database->query(sprintf(
-							"ALTER TABLE `tbl_entries_data_%d` CHANGE `size` `size` INT(11) UNSIGNED NULL DEFAULT NULL", 
+							"ALTER TABLE `tbl_entries_data_%d` CHANGE `size` `size` INT(11) UNSIGNED NULL DEFAULT NULL",
 							$field
 					));
 				}
 			}
-			
+
 			if(version_compare($existing_version, '2.1.0', '<=')){
 				$frontend->Database->query(
 					'ALTER TABLE  `tbl_fields_input` CHANGE  `validator`  `validator` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;'
@@ -285,7 +294,132 @@ Options +FollowSymlinks -Indexes
 					'ALTER TABLE  `tbl_fields_taglist` CHANGE  `validator`  `validator` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;'
 				);
 			}
-			
+
+			if(version_compare($existing_version, '2.2.0dev', '<=')){
+
+				if(tableContainsField('tbl_sections_association', 'cascading_deletion')) {
+					$frontend->Database->query(
+						'ALTER TABLE `tbl_sections_association` CHANGE  `cascading_deletion` `hide_association` enum("yes","no") COLLATE utf8_unicode_ci NOT NULL DEFAULT "no";'
+					);
+
+					// Update Select table to include the new association field
+					$frontend->Database->query('ALTER TABLE `tbl_fields_select` ADD `show_association` ENUM( "yes", "no" ) COLLATE utf8_unicode_ci NOT NULL DEFAULT "yes"');
+				}
+
+				if(tableContainsField('tbl_authors', 'default_section')) {
+					// Allow Authors to be set to any area in the backend.
+					$frontend->Database->query(
+						'ALTER TABLE `tbl_authors` CHANGE `default_section` `default_area` VARCHAR(255) COLLATE utf8_unicode_ci DEFAULT NULL;'
+					);
+				}
+			}
+
+			if(version_compare($existing_version, '2.2.0', '<')){
+				$settings['region']['datetime_separator'] = ' ';
+				$settings['symphony']['strict_error_handling'] = 'yes';
+				writeConfig(DOCROOT . '/manifest', $settings, $settings['file']['write_mode']);
+
+				// We've added UNIQUE KEY indexes to the Author, Checkbox, Date, Input, Textarea and Upload Fields
+				// Time to go through the entry tables and make this change as well.
+				$author = $frontend->Database->fetchCol("field_id", "SELECT `field_id` FROM `tbl_fields_author`");
+				$checkbox = $frontend->Database->fetchCol("field_id", "SELECT `field_id` FROM `tbl_fields_checkbox`");
+				$date = $frontend->Database->fetchCol("field_id", "SELECT `field_id` FROM `tbl_fields_date`");
+				$input = $frontend->Database->fetchCol("field_id", "SELECT `field_id` FROM `tbl_fields_input`");
+				$textarea = $frontend->Database->fetchCol("field_id", "SELECT `field_id` FROM `tbl_fields_textarea`");
+				$upload = $frontend->Database->fetchCol("field_id", "SELECT `field_id` FROM `tbl_fields_upload`");
+
+				$field_ids = array_merge($author, $checkbox, $date, $input, $textarea, $upload);
+
+				foreach($field_ids as $id) {
+					$table = '`tbl_entries_data_' . $id . '`';
+
+					try {
+						$frontend->Database->query("ALTER TABLE " . $table . " DROP INDEX `entry_id`");
+					}
+					catch (Exception $ex) {}
+
+					try {
+						$frontend->Database->query("CREATE UNIQUE INDEX `entry_id` ON " . $table . " (`entry_id`)");
+						$frontend->Database->query("OPTIMIZE TABLE " . $table);
+					}
+					catch (Exception $ex) {}
+				}
+			}
+
+			if(version_compare($existing_version, '2.2.1 Beta 1', '<')) {
+				try {
+					$frontend->Database->query('CREATE INDEX `session_expires` ON `tbl_sessions` (`session_expires`)');
+					$frontend->Database->query('OPTIMIZE TABLE `tbl_sessions`');
+				}
+				catch (Exception $ex) {}
+			}
+
+			if(version_compare($existing_version, '2.2.1 Beta 2', '<')) {
+				// Add Security Rules from 2.2 to .htaccess
+				try {
+					$htaccess = file_get_contents(DOCROOT . '/.htaccess');
+
+					if($htaccess !== false && !preg_match('/### SECURITY - Protect crucial files/', $htaccess)){
+						$security = '
+		### SECURITY - Protect crucial files
+		RewriteRule ^manifest/(.*)$ - [F]
+		RewriteRule ^workspace/utilities/(.*).xsl$ - [F]
+		RewriteRule ^workspace/pages/(.*).xsl$ - [F]
+		RewriteRule ^(.*).sql$ - [F]
+		RewriteRule (^|/)\. - [F]
+
+		### DO NOT APPLY RULES WHEN REQUESTING "favicon.ico"';
+
+						$htaccess = str_replace('### DO NOT APPLY RULES WHEN REQUESTING "favicon.ico"', $security, $htaccess);
+						file_put_contents(DOCROOT . '/.htaccess', $htaccess);
+					}
+				}
+				catch (Exception $ex) {}
+
+				// Add correct index to the `tbl_cache`
+				try {
+					$frontend->Database->query('ALTER TABLE `tbl_cache` DROP INDEX `creation`');
+					$frontend->Database->query('CREATE INDEX `expiry` ON `tbl_cache` (`expiry`)');
+					$frontend->Database->query('OPTIMIZE TABLE `tbl_cache`');
+				}
+				catch (Exception $ex) {}
+
+				// Remove Hide Association field from Select Data tables
+				$select_tables = $frontend->Database->fetchCol("field_id", "SELECT `field_id` FROM `tbl_fields_select`");
+
+				if(is_array($select_tables) && !empty($select_tables)) foreach($select_tables as $field) {
+					if(tableContainsField('tbl_entries_data_' . $field, 'show_association')) {
+						$frontend->Database->query(sprintf(
+							"ALTER TABLE `tbl_entries_data_%d` DROP `show_association`",
+							$field
+						));
+					}
+				}
+
+				// Update Select table to include the sorting option
+				if(!tableContainsField('tbl_fields_select', 'sort_options')) {
+					$frontend->Database->query('ALTER TABLE `tbl_fields_select` ADD `sort_options` ENUM( "yes", "no" ) COLLATE utf8_unicode_ci NOT NULL DEFAULT "no"');
+				}
+
+				// Remove the 'driver' from the Config
+				unset($settings['database']['driver']);
+				writeConfig(DOCROOT . '/manifest', $settings, $settings['file']['write_mode']);
+
+				// Remove the NOT NULL from the Author tables
+				try {
+					$author = $frontend->Database->fetchCol("field_id", "SELECT `field_id` FROM `tbl_fields_author`");
+
+					foreach($author as $id) {
+						$table = '`tbl_entries_data_' . $id . '`';
+
+						$frontend->Database->query(
+							'ALTER TABLE ' . $table . ' CHANGE `author_id` `author_id` int(11) unsigned NULL'
+						);
+					}
+				}
+				catch(Exception $ex) {}
+			}
+
 			$sbl_version = $frontend->Database->fetchVar('version', 0,
 				"SELECT `version` FROM `tbl_extensions` WHERE `name` = 'selectbox_link_field' LIMIT 1"
 			);
@@ -297,6 +431,11 @@ Options +FollowSymlinks -Indexes
 				<br />
 				<ol>
 				'.
+
+				(version_compare($existing_version, '2.2.1', '<') ? '
+				<li>Version <code>2.2.1</code> introduces some improvements and fixes to Static XML Datasources. If you have any Static XML Datasources in your installation, please be sure to re-save them through the Data Source Editor to prevent unexpected results.</li>' : NULL)
+
+				.
 
 				(version_compare($existing_version, '2.1.0', '<') ? '
 				<li>The password for user "<code>'.$username.'</code>" is now reset. The new temporary password is "<code>'.$new_password.'</code>". Please login and change it now.</li>' : NULL)
@@ -319,7 +458,7 @@ Options +FollowSymlinks -Indexes
 
 				.
 
-				(!is_null($sbl_version) && version_compare($sbl_version, '1.14', '<') ? '<li>The "Select Box Link" field extension has been updated to 1.14, however this installation of Symphony appears to be running an older version ('.$sbl_version.'). Versions prior to 1.14 will not work correctly under Symphony <code>'.kVERSION.'</code>. The latest version can be download via the <a href"http://symphony-cms.com/download/extensions/view/20054/">Select Box Link download page</a> on the Symphony site.</li>' : NULL)
+				(!is_null($sbl_version) && version_compare($sbl_version, '1.19dev', '<') ? '<li>The "Select Box Link" field extension has been updated to 1.19, however this installation of Symphony appears to be running an older version ('.$sbl_version.'). Versions prior to 1.19 will not work correctly under Symphony <code>'.kVERSION.'</code>. The latest version can be download via the <a href="http://symphony-cms.com/download/extensions/view/20054/">Select Box Link download page</a> on the Symphony site.</li>' : NULL)
 
 				.'</ol>
 
@@ -382,4 +521,3 @@ Options +FollowSymlinks -Indexes
 		render($code);
 
 	}
-

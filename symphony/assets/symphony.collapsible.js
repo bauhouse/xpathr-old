@@ -1,36 +1,42 @@
-/*-----------------------------------------------------------------------------
-	Collapsible plugin
------------------------------------------------------------------------------*/
-	
-	jQuery.fn.symphonyCollapsible = function(custom_settings) {
-		var objects = this;
-		var settings = {
-			items:				'.instance',
-			handles:			'.header:first',
-			delay_initialize:	false
-		};
+/**
+ * @package assets
+ */
+
+(function($) {
+
+	/**
+	 * This plugin makes items callapsible.
+	 *
+	 * @param {Object} custom_settings
+	 *  An object specifying the item to be collapsed, their handles and 
+	 *  a initialization delay
+	 */
+	$.fn.symphonyCollapsible = function(custom_settings) {
+		var objects = this,
+			settings = {
+				items:				'.instance',
+				handles:			'.header:first',
+				delay_initialize:	false
+			};
 		
-		jQuery.extend(settings, custom_settings);
+		$.extend(settings, custom_settings);
 		
-	/*-------------------------------------------------------------------------
-		Collapsible
-	-------------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------*/
 		
 		objects = objects.map(function() {
-			var object = this;
-			var item = null;
+			var object = this,
+				item = null;
 			
 			var start = function() {
-				item = jQuery(this).parents(settings.items);
+				item = $(this).parents(settings.items);
 				
-				jQuery(document).mouseup(stop);
+				$(document).bind('mouseup.collapsible', stop);
 				
-				if (item.is('.collapsed')) {
+				if(item.is('.collapsed')) {
 					object.addClass('expanding');
 					item.addClass('expanding');
 					object.trigger('expandstart', [item]);
 				}
-				
 				else {
 					object.addClass('collapsing');
 					item.addClass('collapsing');
@@ -41,13 +47,13 @@
 			};
 			
 			var stop = function() {
-				jQuery(document).unbind('mouseup', stop);
+				$(document).unbind('mouseup.collapsible', stop);
 				
-				if (item != null) {
+				if(item != null) {
 					object.removeClass('expanding collapsing');
 					item.removeClass('expanding collapsing');
 					
-					if (item.is('.collapsed')) {
+					if(item.is('.collapsed')) {
 						item.removeClass('collapsed').addClass('expanded');
 						object.trigger('expandstop', [item]);
 					}
@@ -65,16 +71,16 @@
 			
 		/*-------------------------------------------------------------------*/
 			
-			if (object instanceof jQuery === false) {
-				object = jQuery(object);
+			if(object instanceof $ === false) {
+				object = $(object);
 			}
 			
 			object.collapsible = {
 				cancel: function() {
-					jQuery(document).unbind('mouseup', stop);
+					$(document).unbind('mouseup', stop);
 					
-					if (item != null) {
-						if (item.is('.collapsed')) {
+					if(item != null) {
+						if(item.is('.collapsed')) {
 							object.removeClass('expanding');
 							item.removeClass('expanding');
 							object.trigger('expandcancel', [item]);
@@ -91,17 +97,19 @@
 				initialize: function() {
 					object.addClass('collapsible');
 					object.find(settings.items).each(function() {
-						var item = jQuery(this);
-						var handle = item.find(settings.handles);
+						var item = $(this),
+							handle = item.find(settings.handles);
 						
-						handle.unbind('mousedown', start);
-						handle.bind('mousedown', start);
+						handle.unbind('mousedown.collapsible', start);
+						handle.bind('mousedown.collapsible', start);
 					});
 				},
 				
 				collapseAll: function() {
 					object.find(settings.items).each(function() {
-						var item = jQuery(this);
+						var item = $(this);
+						
+						if(item.is('.collapsed')) return;
 						
 						object.trigger('collapsestart', [item]);
 						item.removeClass('expanded').addClass('collapsed');
@@ -111,7 +119,9 @@
 				
 				expandAll: function() {
 					object.find(settings.items).each(function() {
-						var item = jQuery(this);
+						var item = $(this);
+						
+						if(item.is('.expanded')) return;
 						
 						object.trigger('expandstart', [item]);
 						item.removeClass('collapsed').addClass('expanded');
@@ -143,5 +153,5 @@
 		
 		return objects;
 	};
-	
-/*---------------------------------------------------------------------------*/
+
+})(jQuery.noConflict());
