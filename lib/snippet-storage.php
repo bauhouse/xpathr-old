@@ -79,7 +79,7 @@
 			$key  = '/'. trim($key, '/');
 			$file = $dir. $key;
 			$file = new SplFileInfo($file);
-			$path = $file->getPathInfo()->getRealPath();
+			$path = $file->getPathInfo()->getPath();
 
 			if ($path == $dir)
 				return $file;
