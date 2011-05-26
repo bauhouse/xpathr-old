@@ -4,23 +4,23 @@ var debug = false,
 // Toggle Panels
 $('div.label p').click(function () {
   // determine which side was clicked
-  var panel = $(this).closest('.code').is('.javascript') ? 'javascript' : 'html',
-      otherpanel = panel == 'javascript' ? 'html' : 'javascript',
+  var panel = $(this).closest('.code').is('.xml') ? 'xml' : 'xslt',
+      otherpanel = panel == 'xml' ? 'xslt' : 'xml',
       mustshow = $bin.is('.' + panel + '-only'),
       speed = 150,
       animatePanel = animateOtherPanel = {};
   
   if ($bin.is('.' + panel + '-only')) { // showing the panel
-    // only the html tab could have been clicked
-    animatePanel = panel == 'html' ? { left: '50%', width: '50%' } : { left: '0%', width: '50%' };
-    animateOtherPanel = otherpanel == 'javascript' ? { left: '0%' } : { left: '50%' };
+    // only the xslt tab could have been clicked
+    animatePanel = panel == 'xslt' ? { left: '50%', width: '50%' } : { left: '0%', width: '50%' };
+    animateOtherPanel = otherpanel == 'xml' ? { left: '0%' } : { left: '50%' };
     $bin.find('div.' + panel).animate(animatePanel, speed);
     $bin.find('div.' + otherpanel).show().animate(animateOtherPanel, speed, function () {
       $bin.removeClass(panel + '-only');
     });
   } else { // hiding other panel
-    animatePanel = panel == 'html' ? { left: '0%', width: '100%' } : { width: '100%' };
-    animateOtherPanel = otherpanel == 'javascript' ? { left: '-50%' } : { left: '100%' };
+    animatePanel = panel == 'xslt' ? { left: '0%', width: '100%' } : { width: '100%' };
+    animateOtherPanel = otherpanel == 'xml' ? { left: '-50%' } : { left: '100%' };
     
     $bin.find('div.' + panel).animate(animatePanel, speed);
     $bin.find('div.' + otherpanel).animate(animateOtherPanel, speed, function () { 

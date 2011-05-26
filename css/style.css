@@ -110,21 +110,21 @@ a:hover {
   width: 100%;
 }
 
-div.html {
+div.xslt {
   left: 50%;
 }
 
-/*.mozilla #bin div.html {
+/*.mozilla #bin div.xslt {
   margin-left: -2px;
 }
 
-.mozilla #bin.javascript div.javascript,
-.mozilla #bin div.html {
+.mozilla #bin.xml div.xml,
+.mozilla #bin div.xslt {
   border: 1px solid #0080FF;
 }
 
-#bin.javascript div.html,
-#bin div.javascript {
+#bin.xml div.xslt,
+#bin div.xml {
   border: 0;
 }
 */
@@ -173,7 +173,7 @@ div.result {
   width: 140px;
 }
 
-iframe.javascript {
+iframe.xml {
   border-right: 1px solid #ccc !important;
 }
 
@@ -306,12 +306,12 @@ body.result #source select {
   background: rgba(255, 255, 255, 0.3);
 }
 
-.javascript-only div.javascript {
+.xml-only div.xml {
   width: 100%;
   left: 0%;
 }
 
-.javascript-only div.html {
+.xml-only div.xslt {
   display: none;
   left: 100%;
   width: 100%;
@@ -321,22 +321,22 @@ body.result #source select {
   display: none;
 }
 
-.javascript-only .label .hide,
-.html-only .label .hide {
+.xml-only .label .hide,
+.xslt-only .label .hide {
   display: none;
 }
 
-.javascript-only .label .show,
-.html-only .label .show {
+.xml-only .label .show,
+.xslt-only .label .show {
   display: inline;
 }
 
-.html-only div.javascript {
+.xslt-only div.xml {
   left: -50%;
   display: none;
 }
 
-.html-only div.html {
+.xslt-only div.xslt {
   left: 0%;
   width: 100%;
 }
@@ -462,7 +462,7 @@ textarea {
   margin-top: 26px;
 }
 
-div.javascript {
+div.xml {
   border-right: 1px solid #ccc;
 }
 
