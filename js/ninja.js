@@ -59,15 +59,15 @@ $(document).keyup(function (event) {
 });
 
 
-// Show Preview
-$('#control .preview').click(function() {
-  $('body').removeClass('source').addClass('preview');
+// Show Result
+$('#control .result').click(function() {
+  $('body').removeClass('source').addClass('result');
   window.scrollTo(0, 0);
 })
 
 
 // Show Source
 $('#control .source').click(function() {
-  $('body').removeClass('preview').addClass('source');
+  $('body').removeClass('result').addClass('source');
   window.scrollTo(0, 0);
 })

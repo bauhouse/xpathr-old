@@ -132,7 +132,7 @@ div.code {
   width: 50%;
 }
 
-div.preview {
+div.result {
   display: none;
   width: 100%;
 }
@@ -218,7 +218,7 @@ a.gap {
 }
 
 body.source a.source,
-body.preview a.preview {
+body.result a.result {
   background: #aaa;
   background: rgba(0, 0, 0, 0.25);
   text-shadow: none;
@@ -239,7 +239,7 @@ body.preview a.preview {
   
 }
 
-body.preview a.preview {
+body.result a.result {
   border-left: 0;
 }
 
@@ -271,32 +271,32 @@ a.right {
 }
 
 
-#preview {
+#result {
   z-index: 11; /* gets over the labels in IE */
 }
 
-#preview iframe,
+#result iframe,
 #live iframe {
   height: 100%;
   width: 100%;
   border: 0;
 }
 
-body.source #preview {
+body.source #result {
   display: none;
 }
 
-body.preview #source {
+body.result #source {
   opacity: 0;
   filter:alpha(opacity=0);
 }
 
-body.preview #preview,
+body.result #result,
 body.source #source {
   display: block;
 }
 
-body.preview #source select {
+body.result #source select {
   display: none;
 }
 
@@ -788,7 +788,7 @@ ie6, li {
   background-position: 8px 55%;
 }
 
-/* attempt to get a live render preview in */
+/* attempt to get a live render result in */
 #live {
   display: none;
   top: 60%;
@@ -822,7 +822,7 @@ ie6, li {
   display: block;
 }
 
-.preview #live {
+.result #live {
   display: none;
 }
 
