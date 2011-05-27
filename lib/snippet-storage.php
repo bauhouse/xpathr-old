@@ -79,9 +79,9 @@
 			$key  = '/'. trim($key, '/');
 			$file = $dir. $key;
 			$file = new SplFileInfo($file);
-			$path = $file->getPathInfo()->getPath();
+			$path = $file->getRealPath();
 
-			if ($path == $dir)
+			if ($path == $dir. $key)
 				return $file;
 
 			throw new SnippetDataStorageException(
